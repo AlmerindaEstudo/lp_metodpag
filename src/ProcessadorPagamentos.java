@@ -1,12 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+import java.awt.List;
 
-/**
- *
- * @author Discente
- */
+
 public class ProcessadorPagamentos {
     
+    List<MetodoPagamento> pagamentos;
+    
+    public void processarTodosPagamentos(){};
+    
+    public void gerarRelatorio(){};
+    
+    public void pagamentosPedentes(){};
+    
+    public void transacaoSucesso(){};
+    
+    public void transacaoFalha(){};
+    
+    public void valorTotal(){};
 }
