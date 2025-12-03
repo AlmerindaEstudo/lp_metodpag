@@ -25,4 +25,34 @@ public class PagPayPal extends PagamentoBase{
         this.email = email;
     }
     
+    
+   @Override
+    public boolean processarPagamento() {
+    
+    try{
+     
+     System.out.println("Conectando ao PayPal");
+     Thread.sleep(2000);
+     
+    }
+    catch(InterruptedException e){
+        
+    System.out.println("Erro na simulação da conexão");    
+    return false;
+    }
+    
+    boolean aprovado = email != null && email.contains("@") && getValor() > 0;
+    
+    if(aprovado){
+        
+    System.out.println("Pagamento PayPal aprovado");
+        
+    }
+    else{
+        
+    System.out.println("Pagamento PayPal recusado");
+        
+    }
+    return aprovado;
+}
 }

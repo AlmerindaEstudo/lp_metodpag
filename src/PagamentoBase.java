@@ -1,5 +1,5 @@
 
-public abstract class PagamentoBase {
+public abstract class PagamentoBase implements MetodoPagamento{
     
     private int idTransacao;
     private double valor;
@@ -42,5 +42,8 @@ public abstract class PagamentoBase {
     public void getDetalhes(){};
     
     public void validarPagamento(){};
+    
+    @Override
+    public abstract boolean processarPagamento();
     
 }

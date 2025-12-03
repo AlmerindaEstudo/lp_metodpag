@@ -2,6 +2,10 @@
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import static java.time.Month.*;
+import java.time.temporal.TemporalAdjusters;
+
+
 
 
 public class PagCartaoCredito extends PagamentoBase{
@@ -70,7 +74,7 @@ public class PagCartaoCredito extends PagamentoBase{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yy");
         LocalDate validade =  LocalDate.parse("01"+ datavalidade, formatter);
         
-        return validade.with(TemporalAjusters.lastDayOfMonth());
+        return validade.with(TemporalAdjusters.lastDayOfMonth());
         }
     
        catch(DateTimeException e){
