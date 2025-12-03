@@ -108,7 +108,7 @@ public class PagPix extends PagamentoBase {
         return false;
     }
 }
-    private String qerarQrCode(){
+    private String gerarQrCode(){
     
     Random random = new Random();
     
@@ -133,5 +133,11 @@ public class PagPix extends PagamentoBase {
     System.out.println("Erro ao detectar a Chave");
     return false;
     }
+    
+    System.out.println("Gerando Qr Code");
+    String qr = gerarQrCode();
+    System.out.println("Qr Code Gerado");
+    System.out.println(qr);
+    return true;
     }
 }

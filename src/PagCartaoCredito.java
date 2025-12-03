@@ -117,7 +117,10 @@ public class PagCartaoCredito extends PagamentoBase{
         this.cvv = cvv;
     }
     
+    @Override
+    public boolean processarPagamento() {
     
-    
+    }
+
     
 }

@@ -1,12 +1,26 @@
-import java.awt.List;
+import java.util.ArrayList;
+import java.util.List;
+
 
 
 public class ProcessadorPagamentos {
     
+    
     List<MetodoPagamento> pagamentos;
     
-    public void processarTodosPagamentos(){};
     
+    
+    public void processarTodosPagamentos(){
+    
+    this.pagamentos = new ArrayList<>();
+    
+    };
+    
+    public void adicionarPagamento(MetodoPagamento pagamento){
+    
+        pagamentos.add(pagamento);
+    
+    }
     public void gerarRelatorio(){};
     
     public void pagamentosPedentes(){};
