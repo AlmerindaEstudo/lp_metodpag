@@ -1,18 +1,18 @@
+public abstract class PagamentoBase implements MetodoPagamento {
 
-public abstract class PagamentoBase implements MetodoPagamento{
-    
+    //Qualquer classe que implemente MetodoPagamento precisa obrigatoriamente implementar o método processarPagamento().
     private int idTransacao;
     private double valor;
     private String dataHora;
 
+    // Construtor
     public PagamentoBase(int idTransacao, double valor, String dataHora) {
         this.idTransacao = idTransacao;
         this.valor = valor;
         this.dataHora = dataHora;
     }
-    
-    
-    
+
+    // Getters e Setters
     public int getIdTransacao() {
         return idTransacao;
     }
@@ -36,14 +36,21 @@ public abstract class PagamentoBase implements MetodoPagamento{
     public void setDataHora(String dataHora) {
         this.dataHora = dataHora;
     }
-    
-    public void registrarTransacao(){}
-    
-    public void getDetalhes(){};
-    
-    public void validarPagamento(){};
-    
+
+    // Métodos opcionais que podem ser sobrescritos nas subclasses
+    public void registrarTransacao() {
+        // Implementação padrão (pode ser sobrescrita)
+    }
+
+    public void getDetalhes() {
+        // Implementação padrão (pode ser sobrescrita)
+    }
+
+    public void validarPagamento() {
+        // Implementação padrão (pode ser sobrescrita)
+    }
+
+    // Método abstrato obrigatório para processamento de pagamento
     @Override
     public abstract boolean processarPagamento();
-    
 }

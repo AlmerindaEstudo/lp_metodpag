@@ -1,90 +1,71 @@
-
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import static java.time.Month.*;
 import java.time.temporal.TemporalAdjusters;
 
+public class PagCartaoCredito extends PagamentoBase {
 
+    private String ncartaocredito;
+    private String nome;
+    private LocalDate dvalidade;
+    private int cvv;
 
-
-public class PagCartaoCredito extends PagamentoBase{
-    
-    String ncartaocredito;
-    String nome;
-    LocalDate dvalidade;
-    int cvv;
-
-    public PagCartaoCredito(String ncartaocredito, String nome, LocalDate dvalidade, int cvv, int idTransacao, double valor, String dataHora) {
+    // Construtor
+    public PagCartaoCredito(String ncartaocredito, String nome, LocalDate dvalidade, int cvv,
+                            int idTransacao, double valor, String dataHora) {
         super(idTransacao, valor, dataHora);
         this.ncartaocredito = ncartaocredito;
         this.nome = nome;
         this.dvalidade = dvalidade;
         this.cvv = cvv;
-        
-        if(!cartaoCreditoValido(ncartaocredito)){
-        
-        throw new IllegalArgumentException("Número inválido,deve ter 16 dígitos ");
+
+        // Valida número do cartão
+        if (!cartaoCreditoValido(ncartaocredito)) {
+            throw new IllegalArgumentException("Número inválido, deve ter 16 dígitos");
         }
-        
-        if(!CvvValido(cvv)){
-        
-         throw new IllegalArgumentException("Número inválido,deve ter 3 á 4 dígitos ");
-        
+
+        // Valida CVV
+        if (!cvvValido(cvv)) {
+            throw new IllegalArgumentException("CVV inválido, deve ter 3 a 4 dígitos");
         }
-        
-        if(CartaoVencido(dvalidade)){
-        
-        
-        throw new IllegalArgumentException("Data Inválida");
-        
+
+        // Valida se o cartão está vencido
+        if (isCartaoVencido(dvalidade)) {
+            throw new IllegalArgumentException("Data Inválida: cartão vencido");
         }
-        
-        
     }
 
-    private boolean cartaoCreditoValido(String numero){
-    
-    return numero != null && numero.matches("\\d{16}");
-    
-    }
-    private boolean  CvvValido(int cvv){
-    
-    return cvv >= 100 && cvv<=9999;
-    
-    }
-    
-    private boolean CartaoVencido(LocalDate validade){
-    
-    if(dvalidade != null){
-    
-    LocalDate hoje = LocalDate.now();
-    
-    return dvalidade.isBefore(hoje);
-    
-    }
-    
-    return false;
-    }
-    
-    private LocalDate DvalidadeFutura(String datavalidade){
-    
-        try{
-        
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yy");
-        LocalDate validade =  LocalDate.parse("01"+ datavalidade, formatter);
-        
-        return validade.with(TemporalAdjusters.lastDayOfMonth());
+    // Verifica se cartão está vencido
+    private boolean isCartaoVencido(LocalDate validade) {
+        if (validade != null) {
+            LocalDate hoje = LocalDate.now();
+            return validade.isBefore(hoje);
         }
-    
-       catch(DateTimeException e){
-       
-       throw new IllegalArgumentException("Formato de Data inválido,use MM/AA");
-       
-       }
+        return false;
     }
-            
-            
+
+    // Valida número do cartão
+    private boolean cartaoCreditoValido(String numero) {
+        return numero != null && numero.matches("\\d{16}");
+    }
+
+    // Valida CVV
+    private boolean cvvValido(int cvv) {
+        return cvv >= 100 && cvv <= 9999;
+    }
+
+    // Converte string MM/yy para LocalDate
+    public static LocalDate converterValidade(String datavalidade) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yy");
+            LocalDate validade = LocalDate.parse("01/" + datavalidade, DateTimeFormatter.ofPattern("dd/MM/yy"));
+            return validade.with(TemporalAdjusters.lastDayOfMonth());
+        } catch (DateTimeException e) {
+            throw new IllegalArgumentException("Formato de Data inválido, use MM/yy");
+        }
+    }
+
+    // Getters e Setters
     public String getNcartaocredito() {
         return ncartaocredito;
     }
@@ -116,11 +97,15 @@ public class PagCartaoCredito extends PagamentoBase{
     public void setCvv(int cvv) {
         this.cvv = cvv;
     }
-    
+
+    // Processa pagamento
     @Override
     public boolean processarPagamento() {
-    
+        if (isCartaoVencido(dvalidade)) {
+            System.out.println("Pagamento recusado, cartão vencido");
+            return false;
+        }
+        System.out.println("Cartão aprovado");
+        return true;
     }
-
-    
 }
